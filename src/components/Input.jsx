@@ -8,6 +8,7 @@ function Input(props) {
                 props.change(event.target.value);
             }}
             value={props.text}
+            name="input"
         ></input> 
     );
 }
