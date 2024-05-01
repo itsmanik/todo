@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.delete-icon:hover {
+    color: rgb(185, 0, 0);
+}
+
+.done-icon:hover {
+    opacity: 0.3;
+}
