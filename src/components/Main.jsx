@@ -2,14 +2,18 @@ import TodoItem from "./TodoItem";
 import Input from "./Input";
 import Button from "./Button";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 function Main() {
-    let [todos, setTodos] = useState([]);
+    let [todos, setTodos] = useState([
+        { content: "do something", isDone: false },
+    ]);
+    // [{text: "work", isDone: true}]
     let [text, setText] = useState("");
 
     function onAdd() {
         setTodos(function (prevItems) {
-            return [...prevItems, text];
+            return [...prevItems, { content: text, isDone: false }];
         });
         setText("");
     }
@@ -17,13 +21,28 @@ function Main() {
     function onDelete(id) {
         setTodos(function (prevItems) {
             return prevItems.filter(function (item) {
-                return item !== todos[id - 1];
+                return item !== todos[id];
             });
         });
     }
 
     function onChange(text) {
         setText(text);
+    }
+
+    function toggleIsDone(id) {
+        // console.log(id);
+        setTodos(function (prevItems) {
+            return prevItems.map(function (item, index) {
+                if (index == id) {
+                    return {
+                        content: item.content,
+                        isDone: true,
+                    };
+                }
+                return item;
+            });
+        });
     }
 
     return (
@@ -35,10 +54,12 @@ function Main() {
             {todos.map(function (todo, index) {
                 return (
                     <TodoItem
-                        title={todo}
-                        key={index}
-                        id={index + 1}
+                        title={todo.content}
+                        key={uuidv4()}
+                        id={index}
                         onDelete={onDelete}
+                        toggleIsDone={toggleIsDone}
+                        isDone={todo.isDone}
                     />
                 );
             })}

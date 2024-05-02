@@ -3,19 +3,19 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { IconContext } from "react-icons";
 import { useState } from "react";
 
-function TodoItem(props) {
-    let [isDone, setIsDone] = useState(false);
-    let doneStyle;
-    if (isDone) {
-        doneStyle = { textDecoration: "line-through" };
-    }
+let doneStyle = { textDecoration: "line-through" };
+let notDoneStyle = { textDecoration: "underline" };
 
+function TodoItem(props) {
     return (
         <div className="todo-item flex [&>*]:w-14 pr-1 rounded-md mt-2 bg-secondary-color w-96 m-auto h-11 items-center">
-            <span className="text-center text-lg" style={doneStyle}>
-                {props.id}
+            <span
+                className="text-center text-lg"
+                style={props.isDone ? doneStyle : notDoneStyle}
+            >
+                {props.id + 1}
             </span>
-            <span className="[&&]:w-full" style={doneStyle}>
+            <span className="[&&]:w-full" style={props.isDone ? doneStyle : notDoneStyle}>
                 {props.title}
             </span>
             <IconContext.Provider
@@ -23,7 +23,7 @@ function TodoItem(props) {
             >
                 <button
                     onClick={function () {
-                        isDone ? setIsDone(false) : setIsDone(true);
+                        props.toggleIsDone(props.id);
                     }}
                     className="text-center cursor-pointer flex justify-center h-full items-center"
                 >
