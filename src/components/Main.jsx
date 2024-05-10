@@ -6,12 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 
 function Main() {
     let [todos, setTodos] = useState([
-        { content: "do something", isDone: false },
+        { content: "Your todos", isDone: false },
     ]);
-    // [{text: "work", isDone: true}]
     let [text, setText] = useState("");
 
-    function onAdd() {
+    function onAdd(event) {
+        event.preventDefault();
         setTodos(function (prevItems) {
             return [...prevItems, { content: text, isDone: false }];
         });
@@ -31,14 +31,20 @@ function Main() {
     }
 
     function toggleIsDone(id) {
-        // console.log(id);
         setTodos(function (prevItems) {
             return prevItems.map(function (item, index) {
-                if (index == id) {
-                    return {
-                        content: item.content,
-                        isDone: true,
-                    };
+                if (index === id) {
+                    if (item.isDone === true) {
+                        return {
+                            content: item.content,
+                            isDone: false,
+                        };
+                    } else {
+                        return {
+                            content: item.content,
+                            isDone: true,
+                        };
+                    }
                 }
                 return item;
             });
@@ -47,22 +53,24 @@ function Main() {
 
     return (
         <main className="text-white min-h-[75vh]">
-            <div className="flex justify-center w-96 m-auto">
-                <Input change={onChange} text={text} />
-                <Button add={onAdd} />
-            </div>
-            {todos.map(function (todo, index) {
-                return (
-                    <TodoItem
-                        title={todo.content}
-                        key={uuidv4()}
-                        id={index}
-                        onDelete={onDelete}
-                        toggleIsDone={toggleIsDone}
-                        isDone={todo.isDone}
-                    />
-                );
-            })}
+            <form>
+                <div className="flex justify-center w-96 m-auto">
+                    <Input change={onChange} text={text} />
+                    <Button add={onAdd} />
+                </div>
+                {todos.map(function (todo, index) {
+                    return (
+                        <TodoItem
+                            title={todo.content}
+                            key={uuidv4()}
+                            id={index}
+                            onDelete={onDelete}
+                            toggleIsDone={toggleIsDone}
+                            isDone={todo.isDone}
+                        />
+                    );
+                })}
+            </form>
         </main>
     );
 }

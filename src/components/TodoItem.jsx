@@ -1,21 +1,19 @@
 import { MdDone } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { IconContext } from "react-icons";
-import { useState } from "react";
 
-let doneStyle = { textDecoration: "line-through" };
-let notDoneStyle = { textDecoration: "underline" };
+let doneStyle = { textDecoration: "line-through"};
+
+let darkStyle = { backgroundColor: "#001b1b" };
 
 function TodoItem(props) {
     return (
-        <div className="todo-item flex [&>*]:w-14 pr-1 rounded-md mt-2 bg-secondary-color w-96 m-auto h-11 items-center">
+        <div className="todo-item flex [&>*]:w-14 pr-1 rounded-md mt-2 bg-secondary-color w-96 m-auto h-11 items-center" style={props.isDone ? darkStyle : {} }>
+            <span className="text-center text-lg">{props.id + 1}</span>
             <span
-                className="text-center text-lg"
-                style={props.isDone ? doneStyle : notDoneStyle}
+                className="[&&]:w-full"
+                style={props.isDone ? doneStyle : {}}
             >
-                {props.id + 1}
-            </span>
-            <span className="[&&]:w-full" style={props.isDone ? doneStyle : notDoneStyle}>
                 {props.title}
             </span>
             <IconContext.Provider
